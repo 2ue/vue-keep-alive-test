@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
+        <style>
+            .link {
+                cursor: pointer;
+                user-select: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <transition>
+                <keep-alive include="foo">
+                    <component :is="target" @change="onChange"></component>
+                </keep-alive>
+            </transition>
+        </div>
+
+        <script>
+            const Foo = {
+                name: "foo",
+                template: `<div class="link" @click="$emit('change', 'bar')">Go to Bar</div>`
+            };
+            const Bar = {
+                name: "bar",
+                template: `<div class="link" @click="$emit('change', 'foo')">Go to Foo</div>`
+            };
+            Vue.component("foo", Foo);
+            Vue.component("bar", Bar);
+            new Vue({
+                el: '#app',
+                data: {
+                    target: "foo"
+                },
+                methods: {
+                    onChange(target) {
+                        this.target = target;
+                    }
+                }
+            });
+            console.log('111');
+        </script>
+    </body>
+
+    <!-- <body>
+        <div id="app">
+          <p>{{ message }}</p>
+        </div>
+        <script>
+        new Vue({
+          el: '#app',
+          data: {
+            message: 'Hello Vue.js!'
+          }
+        })
+        </script> -->
+</html>
